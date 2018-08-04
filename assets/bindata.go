@@ -66,7 +66,7 @@ var _templatesIndexHtml = []byte(`<!DOCTYPE html>
         <link rel="stylesheet" href="/static/navigation_bar.css">
     </head>
     <body>
-        <div class="container">
+        <div class="container-fullwidth">
             {{.NavigationBar}}
 
             <form id = "your_form" onsubmit="yourFunction()">
@@ -109,23 +109,53 @@ func templatesIndexHtml() (*asset, error) {
 	return a, nil
 }
 
-var _templatesNavigation_barHtml = []byte(`<!-- Navigation Bar -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container">
-        <span class="navbar-brand">Brand</span>
+var _templatesNavigation_barHtml = []byte(`<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #052d47;margin">
+<a class="navbar-brand logoSimbol text-light " style="margin-right: 20px;" href="/"><img src='https://svgshare.com/i/7gA.svg' style="position: absolute;
+margin: auto;"alt="" class="logoSimbol"></a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
 
-        <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a id="homeNav" class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a id="secondNav" class="nav-link" href="/second">Second</a>
-            </li>
-            <li class="nav-item">
-                <a id="thirdNav" class="nav-link" href="/third/1">Third</a>
-            </li>
-        </ul>
-    </div>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav mr-auto">
+	<li class="nav-item active">
+		<a id="homeNav" class="nav-link text-light" href="/">Home</a>
+	   <!-- <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>-->
+	</li>
+	<li class="nav-item">
+   		<a id="thirdNav" class="nav-link text-light" href="/third/1">Notícia do desafio</a>
+	</li>
+	<li class="nav-item dropdown">
+	  <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Sobre
+	  </a>
+	  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	   <!-- <a class="dropdown-item" href="#">O Projeto</a>-->
+	   <a id="secondNav" class="dropdown-item" href="/second">Second</a>
+	   <a id="thirdNav" class="dropdown-item" href="/third/1">Third</a>
+	   <!-- <a class="dropdown-item" href="#">A Bleu</a>
+		<div class="dropdown-divider"></div> -->
+		
+	  </div>
+	</li>
+   
+  </ul>
+  <form id = "your_form" onsubmit="yourFunction()" class="form-inline my-2 my-lg-0">
+	<input name="keywords" class="form-control mr-sm-2 bg-light" type="text" placeholder="TransactionID" aria-label="Search">
+	<button class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Search">Pesquisar</button>
+  </form>
+
+  <script>
+
+			function yourFunction(){
+				var action_src = "http://localhost:5000/third/" + document.getElementsByName("keywords")[0].value;
+				var your_form = document.getElementById('your_form');
+				your_form.action = action_src ;
+			}
+
+			</script>
+
+</div>
 </nav>`)
 
 func templatesNavigation_barHtmlBytes() ([]byte, error) {
@@ -158,7 +188,7 @@ var _templatesSecond_viewHtml = []byte(`<!DOCTYPE html>
         <link rel="stylesheet" href="/static/navigation_bar.css">
     </head>
     <body>
-        <div class="container">
+        <div class="container-fullwidth">
             {{.NavigationBar}}
 
         </div>
@@ -202,19 +232,16 @@ var _templatesThird_viewHtml = []byte(`<!DOCTYPE html>
         <link rel="stylesheet" href="/static/third_view.css">
     </head>
     <body>
-        <div class="container">
-            {{.NavigationBar}}
-
-            <h1>Rendering Data</h1>
-            <div class="result-box">
+		<div class="container-fullwidth ">
+			
+			{{.NavigationBar}}
+			
+            <div class="result-box container" style="border-radius: 30px">
                 {{if not .StringQuery}}
-					<h3>{{.StringQuery}}</h3>
-
+                    <h3>{{.StringQuery}}</h3>
                 {{else}}
-                    
 					<h2 class="result-underlined">The news in the transaction is: </h2>
 					<h3>{{.StringQuery | formatOddOrEven}}</h3>
-
                 {{end}}
             </div>
         </div>
@@ -242,7 +269,15 @@ func templatesThird_viewHtml() (*asset, error) {
 	return a, nil
 }
 
-var _staticNavigation_barCss = []byte(``)
+var _staticNavigation_barCss = []byte(`.logoSimbol {
+    position:relative;
+    background-size: contain;
+    height: 36px;
+    width: 119px;
+    display: block;
+    margin: auto;
+}
+`)
 
 func staticNavigation_barCssBytes() ([]byte, error) {
 	return _staticNavigation_barCss, nil
@@ -261,6 +296,14 @@ func staticNavigation_barCss() (*asset, error) {
 
 var _staticStyleCss = []byte(`h1, h2, h3, h4, h5 {
     text-align: center;
+}
+.logoSimbol {
+   
+    background-size: contain;
+    height: 36px;
+    width: 119px;
+	display: block;
+	
 }`)
 
 func staticStyleCssBytes() ([]byte, error) {
@@ -280,6 +323,11 @@ func staticStyleCss() (*asset, error) {
 
 var _staticThird_viewCss = []byte(`.result-box {
     margin-top: 50px;
+    background-color: #CBDBE5;
+	padding: 20px 30px 30px 30px;
+    text-justify: newspaper;
+    border-radius: 30px;
+   
 }
 
 .result-underlined {

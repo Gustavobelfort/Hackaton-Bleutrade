@@ -1,3 +1,12 @@
 h1, h2, h3, h4, h5 {
     text-align: center;
 }
+
+.logoSimbol {
+    position:relative;
+    background-size: contain;
+    height: 36px;
+    width: 119px;
+    display: block;
+    
+}
