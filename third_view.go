@@ -15,13 +15,13 @@ func ThirdViewFormattingFuncMap() template.FuncMap {
 	}
 }
 
-func formatOddOrEven(number int) string {
+func formatOddOrEven(number string) string {
 	client, err := ethclient.Dial("https://mainnet.infura.io")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	txHash := common.HexToHash("0xb1ed364e4333aae1da4a901d5231244ba6a35f9421d4607f7cb90d60bf45578a")
+	txHash := common.HexToHash(number)
 	tx, _, err := client.TransactionByHash(context.Background(), txHash)
 	if err != nil {
 		log.Fatal(err)

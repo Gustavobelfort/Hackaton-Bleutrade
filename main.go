@@ -53,14 +53,12 @@ func main() {
 	fmt.Println("main : shutting down")
 }
 
-// Config provides basic configuration
 type Config struct {
 	Host         string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 }
 
-// HTMLServer represents the web service that serves up HTML
 type HTMLServer struct {
 	server *http.Server
 	wg     sync.WaitGroup
@@ -105,7 +103,6 @@ func Start(cfg Config) *HTMLServer {
 
 // Stop turns off the HTML Server
 func (htmlServer *HTMLServer) Stop() error {
-	// Create a context to attempt a graceful 5 second shutdown.
 	const timeout = 5 * time.Second
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
@@ -147,8 +144,6 @@ func push(w http.ResponseWriter, resource string) {
 		}
 	}
 }
-
-// Route Handlers
 
 // HomeHandler renders the homepage view template
 func HomeHandler(w http.ResponseWriter, r *http.Request) {

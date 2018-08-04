@@ -19,6 +19,7 @@ import (
 	"strings"
 	"time"
 )
+
 type asset struct {
 	bytes []byte
 	info  os.FileInfo
@@ -56,7 +57,7 @@ var _templatesIndexHtml = []byte(`<!DOCTYPE html>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Golang HTML Server</title>
+        <title>Bleu News</title>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -68,7 +69,21 @@ var _templatesIndexHtml = []byte(`<!DOCTYPE html>
         <div class="container">
             {{.NavigationBar}}
 
-            <h1>Hello, World!</h1>
+            <form id = "your_form" onsubmit="yourFunction()">
+    			<input type="text" name="keywords">
+    			<input type="submit" value="Search">
+			</form>
+
+			<script>
+
+			function yourFunction(){
+				var action_src = "http://localhost:5000/third/" + document.getElementsByName("keywords")[0].value;
+				var your_form = document.getElementById('your_form');
+				your_form.action = action_src ;
+			}
+
+			</script>
+
         </div>
     </body>
 
@@ -134,7 +149,7 @@ var _templatesSecond_viewHtml = []byte(`<!DOCTYPE html>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Golang HTML Server</title>
+        <title>Bleu News</title>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -146,8 +161,6 @@ var _templatesSecond_viewHtml = []byte(`<!DOCTYPE html>
         <div class="container">
             {{.NavigationBar}}
 
-            <h1>Another View</h1>
-            <h2>- Content Goes Here -</h2>
         </div>
     </body>
 
@@ -179,7 +192,7 @@ var _templatesThird_viewHtml = []byte(`<!DOCTYPE html>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Golang HTML Server</title>
+        <title>Bleu News</title>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -193,16 +206,15 @@ var _templatesThird_viewHtml = []byte(`<!DOCTYPE html>
             {{.NavigationBar}}
 
             <h1>Rendering Data</h1>
-            <h4>This page takes the number passed in and determines if it is odd or even</h4>
             <div class="result-box">
-                {{if .StringQuery}}
-                    <h2 class="result-underlined">You didn't enter a number, you did this:</h2>
-                    <h3>{{.StringQuery}}</h3>
+                {{if not .StringQuery}}
+					<h3>{{.StringQuery}}</h3>
+
                 {{else}}
-                    <h2 class="result-underlined">The number entered is</h2>
-                    <h3>{{.Number}}</h3>
-                    <h2 class="result-underlined">This number is</h2>
-                    <h3>{{.Number | formatOddOrEven}}</h3>
+                    
+					<h2 class="result-underlined">The news in the transaction is: </h2>
+					<h3>{{.StringQuery | formatOddOrEven}}</h3>
+
                 {{end}}
             </div>
         </div>
@@ -341,13 +353,13 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"templates/index.html": templatesIndexHtml,
+	"templates/index.html":          templatesIndexHtml,
 	"templates/navigation_bar.html": templatesNavigation_barHtml,
-	"templates/second_view.html": templatesSecond_viewHtml,
-	"templates/third_view.html": templatesThird_viewHtml,
-	"static/navigation_bar.css": staticNavigation_barCss,
-	"static/style.css": staticStyleCss,
-	"static/third_view.css": staticThird_viewCss,
+	"templates/second_view.html":    templatesSecond_viewHtml,
+	"templates/third_view.html":     templatesThird_viewHtml,
+	"static/navigation_bar.css":     staticNavigation_barCss,
+	"static/style.css":              staticStyleCss,
+	"static/third_view.css":         staticThird_viewCss,
 }
 
 // AssetDir returns the file names below a certain
@@ -389,17 +401,18 @@ type bintree struct {
 	Func     func() (*asset, error)
 	Children map[string]*bintree
 }
+
 var _bintree = &bintree{nil, map[string]*bintree{
 	"static": &bintree{nil, map[string]*bintree{
 		"navigation_bar.css": &bintree{staticNavigation_barCss, map[string]*bintree{}},
-		"style.css": &bintree{staticStyleCss, map[string]*bintree{}},
-		"third_view.css": &bintree{staticThird_viewCss, map[string]*bintree{}},
+		"style.css":          &bintree{staticStyleCss, map[string]*bintree{}},
+		"third_view.css":     &bintree{staticThird_viewCss, map[string]*bintree{}},
 	}},
 	"templates": &bintree{nil, map[string]*bintree{
-		"index.html": &bintree{templatesIndexHtml, map[string]*bintree{}},
+		"index.html":          &bintree{templatesIndexHtml, map[string]*bintree{}},
 		"navigation_bar.html": &bintree{templatesNavigation_barHtml, map[string]*bintree{}},
-		"second_view.html": &bintree{templatesSecond_viewHtml, map[string]*bintree{}},
-		"third_view.html": &bintree{templatesThird_viewHtml, map[string]*bintree{}},
+		"second_view.html":    &bintree{templatesSecond_viewHtml, map[string]*bintree{}},
+		"third_view.html":     &bintree{templatesThird_viewHtml, map[string]*bintree{}},
 	}},
 }}
 
@@ -449,4 +462,3 @@ func _filePath(dir, name string) string {
 	cannonicalName := strings.Replace(name, "\\", "/", -1)
 	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 }
-
