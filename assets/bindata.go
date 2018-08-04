@@ -123,7 +123,7 @@ margin: auto;"alt="" class="logoSimbol"></a>
 	   <!-- <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>-->
 	</li>
 	<li class="nav-item">
-   		<a id="thirdNav" class="nav-link text-light" href="/third/1">Notícia do desafio</a>
+   		<a id="thirdNav" class="nav-link text-light" href="/third/0xb1ed364e4333aae1da4a901d5231244ba6a35f9421d4607f7cb90d60bf45578a?keywords=0xb1ed364e4333aae1da4a901d5231244ba6a35f9421d4607f7cb90d60bf45578a">Notícia do desafio</a>
 	</li>
 	<li class="nav-item dropdown">
 	  <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -174,6 +174,49 @@ func templatesNavigation_barHtml() (*asset, error) {
 }
 
 var _templatesSecond_viewHtml = []byte(`<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Bleu News</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="/static/style.css">
+        <link rel="stylesheet" href="/static/navigation_bar.css">
+    </head>
+    <body>
+        <div class="container-fullwidth">
+            {{.NavigationBar}}
+
+        </div>
+    </body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+</html>`)
+
+func templatesSecond_viewHtmlBytes() ([]byte, error) {
+	return _templatesSecond_viewHtml, nil
+}
+
+func templatesSecond_viewHtml() (*asset, error) {
+	bytes, err := templatesSecond_viewHtmlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/second_view.html", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _templatesThird_viewHtml = []byte(`<!DOCTYPE html>
 <html lang="en">
     <head>
         <!-- Required meta tags -->
