@@ -67,22 +67,17 @@ var _templatesIndexHtml = []byte(`<!DOCTYPE html>
     </head>
     <body>
         <div class="container-fullwidth">
-            {{.NavigationBar}}
-
-            <form id = "your_form" onsubmit="yourFunction()">
-    			<input type="text" name="keywords">
-    			<input type="submit" value="Search">
-			</form>
-
-			<script>
-
-			function yourFunction(){
-				var action_src = "http://localhost:5000/third/" + document.getElementsByName("keywords")[0].value;
-				var your_form = document.getElementById('your_form');
-				your_form.action = action_src ;
-			}
-
-			</script>
+			{{.NavigationBar}}
+			<div class="result-box container" style="border-radius: 30px">
+			<h3>{{HomeformatOddOrEven}}</h3>
+			</div>
+			<div class="result-box container" style="border-radius: 30px">
+			<h3>{{HomeformatOddOrEven}}</h3>
+			</div>
+           
+				
+            
+            
 
         </div>
     </body>
@@ -240,7 +235,7 @@ var _templatesThird_viewHtml = []byte(`<!DOCTYPE html>
                 {{if not .StringQuery}}
                     <h3>{{.StringQuery}}</h3>
                 {{else}}
-					<h2 class="result-underlined">The news in the transaction is: </h2>
+					
 					<h3>{{.StringQuery | formatOddOrEven}}</h3>
                 {{end}}
             </div>
@@ -304,7 +299,16 @@ var _staticStyleCss = []byte(`h1, h2, h3, h4, h5 {
     width: 119px;
 	display: block;
 	
-}`)
+}
+.result-box {
+    margin-top: 50px;
+    background-color: #CBDBE5;
+	padding: 20px 30px 30px 30px;
+    text-justify: newspaper;
+    border-radius: 30px;
+   
+}
+`)
 
 func staticStyleCssBytes() ([]byte, error) {
 	return _staticStyleCss, nil

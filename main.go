@@ -26,8 +26,9 @@ var thirdViewTpl *template.Template
 func init() {
 	navigationBarHTML = assets.MustAssetString("templates/navigation_bar.html")
 
+	homeFuncMap := HomeFormattingFuncMap()
 	homepageHTML := assets.MustAssetString("templates/index.html")
-	homepageTpl = template.Must(template.New("homepage_view").Parse(homepageHTML))
+	homepageTpl = template.Must(template.New("homepage_view").Funcs(homeFuncMap).Parse(homepageHTML))
 
 	secondViewHTML := assets.MustAssetString("templates/second_view.html")
 	secondViewTpl = template.Must(template.New("second_view").Parse(secondViewHTML))
@@ -37,11 +38,13 @@ func init() {
 	thirdViewTpl = template.Must(template.New("third_view").Funcs(thirdViewFuncMap).Parse(thirdViewHTML))
 }
 
+var indexText = 0
+
 func main() {
 	serverCfg := Config{
 		Host:         "localhost:5000",
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 5 * time.Second,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
 	}
 	htmlServer := Start(serverCfg)
 	defer htmlServer.Stop()
@@ -149,10 +152,19 @@ func push(w http.ResponseWriter, resource string) {
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	push(w, "/static/style.css")
 	push(w, "/static/navigation_bar.css")
+	push(w, "/static/third_view.css")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
+	var queryString string
+	pathVariables := mux.Vars(r)
+	queryNumber, err := strconv.Atoi(pathVariables["number"])
+	if err != nil {
+		queryString = pathVariables["number"]
+	}
 	fullData := map[string]interface{}{
 		"NavigationBar": template.HTML(navigationBarHTML),
+		"Number":        queryNumber,
+		"StringQuery":   queryString,
 	}
 	render(w, r, homepageTpl, "homepage_view", fullData)
 }
